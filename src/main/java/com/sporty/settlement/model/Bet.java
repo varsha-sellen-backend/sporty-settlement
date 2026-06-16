@@ -7,9 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import jakarta.persistence.Index;
+
 
 @Entity
-@Table(name = "bets")
+@Table(name = "bets", indexes = {
+    @Index(name = "idx_event_status", columnList = "eventId, status")
+})
 @Data
 @Builder
 @NoArgsConstructor
