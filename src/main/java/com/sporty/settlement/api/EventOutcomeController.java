@@ -25,13 +25,21 @@ public class EventOutcomeController {
      *
      * Example body:
      * {
-     *   "eventId": "EVT-001",
-     *   "outcome": "TEAM_A_WIN",
-     *   "resolvedAt": "2024-06-10T15:00:00"
+     * "eventId": "EVT-001",
+     * "outcome": "TEAM_A_WIN",
+     * "resolvedAt": "2024-06-10T15:00:00"
      * }
      */
     @PostMapping("/outcome")
     public ResponseEntity<String> publishOutcome(@RequestBody EventOutcome eventOutcome) {
+        if (eventOutcome.getEventId() == null || eventOutcome.getEventId().isBlank()) {
+            return ResponseEntity.badRequest().body("eventId is required");
+        }
+
+        if (eventOutcome.getOutcome() == null || eventOutcome.getOutcome().isBlank()) {
+            return ResponseEntity.badRequest().body("outcome is required");
+        }
+
         if (eventOutcome.getResolvedAt() == null) {
             eventOutcome.setResolvedAt(LocalDateTime.now());
         }
