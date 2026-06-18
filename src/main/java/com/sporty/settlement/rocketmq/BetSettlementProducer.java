@@ -23,14 +23,17 @@ import org.springframework.stereotype.Component;
 public class BetSettlementProducer {
 
     private final ObjectMapper objectMapper;
+    private final BetSettlementConsumer betSettlementConsumer;
 
     public void send(BetSettlementResult result) {
         try {
             String payload = objectMapper.writeValueAsString(result);
-            // TODO: replace with real RocketMQ send when broker is available
             log.info("[RocketMQ MOCK] Sending to bet-settlements: {}", payload);
+            // Simulate consumer receiving the message
+            betSettlementConsumer.onMessage(result);
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize BetSettlementResult for betId={}", result.getBetId(), e);
         }
     }
+
 }
