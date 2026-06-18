@@ -52,8 +52,9 @@ public class BetSettlementService {
     }
 
     private BetStatus resolveBet(Bet bet, String actualOutcome) {
-        return bet.getPredictedOutcome().equalsIgnoreCase(actualOutcome)
-                ? BetStatus.WON
-                : BetStatus.LOST;
+        boolean isWinner = bet.getPredictedOutcome().equalsIgnoreCase(actualOutcome);
+        log.debug("Bet id={} predicted={} actual={} winner={}",
+                bet.getId(), bet.getPredictedOutcome(), actualOutcome, isWinner);
+        return isWinner ? BetStatus.WON : BetStatus.LOST;
     }
 }
